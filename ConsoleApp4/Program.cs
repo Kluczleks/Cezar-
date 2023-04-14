@@ -31,6 +31,7 @@ string toAsciiCaesar(String clearText)
 string fromAsciiCaesar(string encryptedText)
 {
     string clearText = "";
+    clearText = clearText.ToUpper();
     foreach (char c in encryptedText)
     {
         //pomiń wszystkie znaki poza literami z alfabetu łacińskiego
@@ -63,5 +64,39 @@ string fromAsciiCaesar(string encryptedText)
     //zdefiniuj string do zaszyfrowania
     string clearText = "Ala ma kota, kot ma Ale, a sierotka ma rysia";
 
-
 Console.WriteLine("Zaszyfrowany tekst: " + fromAsciiCaesar(clearText));
+
+//slownik do szyfrowania
+
+const string chars = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUVWXYZŹŻ ";
+
+string toArrayCaesar(string clearText)
+{   //zmień tekst na wielkie litery 
+    clearText = clearText.ToUpper();
+    string encryptedText = "";
+    //deklarujemy tablicę pojedyńczych charów i wypełniamy ją ze słownika 
+    char[] charArray = chars.ToCharArray();
+    //przechodzimy pętlą przez tekst do zaszyfrowania 
+    foreach(char c in clearText)
+    {
+        //znajdujem pozycje w słownkiku pierwotnej (nie zaszyfrowanej) litery 
+        int index = Array.IndexOf(charArray, c);
+        //dodajemy wartość klucza 
+        index += 3;
+        //jzeli wynikowy index jest wyższy niż liczba liter w słowniku 
+        if (index > charArray.Length - 1)
+        {       
+            //odejmij długość słownika żeby go "zawinąć"
+            index -= charArray.Length;
+        }
+        encryptedText += charArray[index];
+    }
+
+
+    return encryptedText;
+}
+
+//zdefiniuj tekst
+
+string encryptedText2 = toArrayCaesar(clearText);
+Console.WriteLine("Zaszyfrowany drugą metodą tekst: " + encryptedText2);
